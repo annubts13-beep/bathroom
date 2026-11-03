@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Vision Board | SuperFast Kitchen &amp; Bath</title>
+  <meta name="description" content="Design your new bathroom in about two minutes. Pick your shower, walls, flooring, vanity and more - then get a free instant render and quote.">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar" aria-label="Your vision board">
+      <div class="sb-head">
+        <img src="images/logo.svg" alt="SuperFast" class="sb-logo" width="58" height="22">
+        <div class="sb-titles">
+          <div class="sb-brand">SuperFast Kitchen &amp; Bath</div>
+          <div class="sb-title">Your Vision Board</div>
+        </div>
+        <div class="ring" id="ring" role="img" aria-label="0% complete">
+          <svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15.5" class="ring-bg"/><circle cx="18" cy="18" r="15.5" class="ring-fg" id="ringFg"/></svg>
+          <span id="ringPct">0%</span>
+        </div>
+        <button class="sb-toggle" id="sbToggle" type="button" aria-expanded="false" aria-controls="sbBody" aria-label="Show board">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="sb-progress"><div class="sb-progress-fill" id="sbProgress"></div></div>
+      <div class="sb-meta"><span id="sbCount">0 of 10 choices</span><span id="sbStatus" class="sb-status">Start picking!</span></div>
+
+      <div class="sb-body" id="sbBody">
+        <div class="ready-card" id="readyCard" hidden>
+          <div class="ready-title"><span aria-hidden="true">🎉</span> Your vision board is ready!</div>
+          <button type="button" class="btn btn-green btn-sm" data-go="summary">View My Board <span aria-hidden="true">→</span></button>
+        </div>
+
+        <label class="accessible-row">
+          <span class="acc-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="4" r="2" fill="currentColor"/><path d="M12 7v6h5l2 5M12 10H8m4 3a5 5 0 1 0 4 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+          <span class="acc-text"><strong>Make it Accessible</strong><small>Walk-in tub, grab bars, non-slip &amp; more</small></span>
+          <input type="checkbox" id="accessibleToggle" class="switch-input">
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+
+        <div class="thumbs" id="thumbs" aria-label="Your picks"></div>
+
+        <div class="cats">
+          <div class="cats-title">Categories</div>
+          <ol class="cats-list" id="catsList"></ol>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main" id="main">
+      <div class="top-progress" aria-hidden="true"><div class="top-progress-fill" id="topProgress"></div></div>
+
+      <!-- Quick start -->
+      <section class="view view-start" id="view-start" aria-labelledby="startTitle">
+        <div class="chip chip-blue"><span aria-hidden="true">✨</span> Quick Start</div>
+        <h1 id="startTitle" class="start-title">Pick a Style to Start</h1>
+        <p class="start-sub">One tap preloads your whole board - then customize each category. Or skip straight to step 1.</p>
+        <div class="style-grid" id="styleGrid"></div>
+        <div class="center"><button type="button" class="btn btn-outline btn-lg" id="scratchBtn">Start from Scratch <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <!-- Step view -->
+      <section class="view view-step" id="view-step" hidden aria-live="polite">
+        <div class="step-chips">
+          <span class="chip chip-blue" id="stepChip">Step 1 of 10</span>
+          <span class="chip chip-green" id="selectedChip" hidden>✓ Selected</span>
+        </div>
+        <h2 class="step-title" id="stepTitle">Shower / Tub Style</h2>
+        <p class="step-sub" id="stepSub">Tap one to add it to your board. It auto-advances - or change anytime.</p>
+        <div class="variant-wrap" id="variantWrap"></div>
+        <div class="note" id="stepNote" hidden></div>
+        <div class="option-grid" id="optionGrid" role="listbox"></div>
+        <button type="button" class="skip-card" id="skipCard">
+          <span class="skip-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20L20 4" stroke="currentColor" stroke-width="1.6"/></svg></span>
+          <span><strong>Not in my project</strong><small id="skipText">Skip this - I'm not updating this</small></span>
+        </button>
+        <div class="step-nav">
+          <button type="button" class="btn-link" id="backBtn">‹ Back</button>
+          <button type="button" class="btn btn-blue" id="nextBtn">Next <span aria-hidden="true">→</span></button>
+        </div>
+        <div class="dots" id="dots" aria-hidden="true"></div>
+      </section>
+
+      <!-- Summary + lead form -->
+      <section class="view view-summary" id="view-summary" hidden>
+        <header class="summary-hero">
+          <div class="summary-hero-inner">
+            <div>
+              <div class="chip chip-glass">✓ Board Complete!</div>
+              <h1 class="summary-title">Your Vision Board is Ready!</h1>
+              <p class="summary-sub" id="summarySub">All 10 categories selected - your dream bathroom is fully mapped out.</p>
+            </div>
+            <button type="button" class="btn btn-glass" id="shareBtn">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke="currentColor" stroke-width="2"/></svg>
+              <span id="shareLabel">Copy Share Link</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="summary-body">
+          <div class="summary-left">
+            <article class="board-card" aria-label="Bathroom vision board">
+              <div class="board-head">
+                <div class="board-brand">
+                  <img src="images/logo.svg" alt="" width="48" height="18">
+                  <div>
+                    <div class="bb-name">SuperFast</div>
+                    <div class="bb-tag">Fast. Affordable. Stylish.</div>
+                    <div class="bb-small">Kitchen &amp; Bath · Grand Junction, CO</div>
+                  </div>
+                </div>
+                <div class="board-label">
+                  <div>Bathroom Vision Board</div>
+                  <small id="boardDate"></small>
+                </div>
+              </div>
+              <div class="board-grid" id="boardGrid"></div>
+              <div class="board-foot"><em>Designed with SuperFast Kitchen &amp; Bath</em><span>superfastkitchenandbath.com</span></div>
+            </article>
+
+            <div class="selections-card">
+              <div class="sel-head"><h3>Your Selections</h3><button type="button" class="btn-link small" data-go="step-1">Edit Board →</button></div>
+              <ul class="sel-list" id="selList"></ul>
+            </div>
+          </div>
+
+          <aside class="summary-right">
+            <form class="lead-form" id="leadForm" novalidate>
+              <div class="chip chip-blue small">⚡ Free | Instant Render of Your Bathroom</div>
+              <h2 class="lead-title">See Your New Bathroom Come to Life</h2>
+              <p class="lead-sub">Enter your info and we'll instantly turn your picks into a visual render of your exact bathroom, yours to keep, plus your high-res vision board and a free quote. No obligation.</p>
+
+              <div class="form-error" id="formError" role="alert" hidden></div>
+
+              <div class="row2">
+                <div class="field">
+                  <label for="firstName">First Name</label>
+                  <input id="firstName" name="firstName" type="text" placeholder="Jane" autocomplete="given-name" maxlength="50" required>
+                  <p class="err" data-err-for="firstName"></p>
+                </div>
+                <div class="field">
+                  <label for="lastName">Last Name</label>
+                  <input id="lastName" name="lastName" type="text" placeholder="Smith" autocomplete="family-name" maxlength="50" required>
+                  <p class="err" data-err-for="lastName"></p>
+                </div>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="jane@example.com" autocomplete="email" maxlength="254" required>
+                <p class="err" data-err-for="email"></p>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="phone">Phone</label>
+                  <input id="phone" name="phone" type="tel" placeholder="(970) 555-0100" autocomplete="tel-national" inputmode="tel" maxlength="16" required>
+                  <p class="err" data-err-for="phone"></p>
+                </div>
+                <div class="field">
+                  <label for="zip">Zip Code</label>
+                  <input id="zip" name="zip" type="text" placeholder="81501" autocomplete="postal-code" inputmode="numeric" maxlength="10" required>
+                  <p class="err" data-err-for="zip"></p>
+                </div>
+              </div>
+              <div class="row2">
+                <div class="field">
+                  <label for="city">City</label>
+                  <input id="city" name="city" type="text" value="Grand Junction" autocomplete="address-level2" maxlength="60" required>
+                  <p class="err" data-err-for="city"></p>
+                </div>
+                <div class="field">
+                  <label for="state">State</label>
+                  <input id="state" name="state" type="text" value="CO" autocomplete="address-level1" maxlength="2" required>
+                  <p class="err" data-err-for="state"></p>
+                </div>
+              </div>
+              <div class="field">
+                <label for="bestTime">Best Time to Call</label>
+                <select id="bestTime" name="bestTime"></select>
+                <p class="err" data-err-for="bestTime"></p>
+              </div>
+
+              <!-- honeypot: hidden from humans -->
+              <div class="hp" aria-hidden="true">
+                <label for="website">Website</label>
+                <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+
+              <button type="submit" class="btn btn-blue btn-block btn-submit" id="submitBtn">
+                <span class="btn-label"><span aria-hidden="true">✨</span> Show Me My Bathroom Render</span>
+                <span class="spinner" aria-hidden="true"></span>
+              </button>
+              <p class="fine">By submitting, you agree to be contacted about your project by phone, text or email. No spam - ever.</p>
+            </form>
+
+            <div class="success-card" id="successCard" hidden tabindex="-1" role="status">
+              <div class="success-icon" aria-hidden="true">
+                <svg viewBox="0 0 52 52" width="56" height="56"><circle cx="26" cy="26" r="25" fill="#16a34a"/><path d="M15 27l7 7 15-15" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h2>You're all set!</h2>
+              <p id="successMsg">Your vision board is on its way to our design team.</p>
+              <ul class="success-next">
+                <li><strong>1.</strong> Our designer reviews your picks</li>
+                <li><strong>2.</strong> You get your bathroom render &amp; high-res board</li>
+                <li><strong>3.</strong> We call at your preferred time with a free quote</li>
+              </ul>
+              <button type="button" class="btn btn-outline" data-go="step-1">Keep Customizing</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/catalog.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
